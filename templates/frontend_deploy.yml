@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: {{ .Release.Name }}-frontend
 spec:
   revisionHistoryLimit: 0
   replicas: 4
   selector:
     matchLabels:
-      app: frontend
+      app: {{ .Release.Name }}-frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: {{ .Release.Name }}-frontend
     spec:
       containers:
         - name: main
@@ -21,7 +21,7 @@ spec:
               containerPort: 3000
           env:
             - name: API_ORIGIN
-              value: http://backend
+              value: http://{{ .Release.Name }}-backend
             - name: FONT_COLOR
               value: "white"
             - name: BACKGROUND_COLOR

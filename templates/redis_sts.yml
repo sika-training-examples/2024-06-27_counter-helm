@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: redis
+  name: {{ .Release.Name }}-redis
 spec:
-  serviceName: redis
+  serviceName: {{ .Release.Name }}-redis
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: Retain
     whenScaled: Retain
@@ -19,11 +19,11 @@ spec:
             storage: 1Gi
   selector:
     matchLabels:
-      app: redis
+      app: {{ .Release.Name }}-redis
   template:
     metadata:
       labels:
-        app: redis
+        app: {{ .Release.Name }}-redis
     spec:
       volumes:
         - name: redis

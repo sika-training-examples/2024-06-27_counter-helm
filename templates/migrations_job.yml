@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: migrations
+  name: {{ .Release.Name }}-migrations-{{ .Release.Revision }}
   annotations:
     argocd.argoproj.io/hook: Sync
     argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
@@ -17,4 +17,4 @@ spec:
         - name: redis-cleanup
           image: redis
           command: ["/bin/sh", "-c"]
-          args: ["redis-cli -h redis FLUSHALL"]
+          args: ["redis-cli -h {{ .Release.Name }}-redis FLUSHALL"]
