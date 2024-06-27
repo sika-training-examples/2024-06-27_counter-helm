@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrations
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: sleep
+          image: debian:12-slim
+          command: ["/bin/sh", "-c"]
+          args: ["sleep 20"]
+        - name: redis-cleanup
+          image: redis
+          command: ["/bin/sh", "-c"]
+          args: ["redis-cli -h redis FLUSHALL"]
